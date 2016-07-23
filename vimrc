@@ -16,7 +16,7 @@ Plugin 'gmarik/Vundle.vim'              " let Vundle manage Vundle
 """ General plugins
 Plugin 'vim-scripts/Gundo'              " visualize vim undo tree
 Plugin 'terryma/vim-multiple-cursors'   " multi-cursors
-Plugin 'kien/ctrlp.vim'                 " fuzzy file search
+Plugin 'ctrlpvim/ctrlp.vim'             " fuzzy file search
 Plugin 'tpope/vim-fugitive'             " git features from within vim
 Plugin 'Lokaltog/vim-easymotion'        " jump anywhere quickly
 Plugin 'airblade/vim-gitgutter'         " git diff in sign column
@@ -24,13 +24,14 @@ Plugin 'scrooloose/syntastic'           " syntax checking
 Plugin 'ntpeters/vim-better-whitespace' " highlight unwanted whitespaces
 Plugin 'sjl/badwolf'                    " colorscheme
 Plugin 'scrooloose/nerdtree'            " file and folder structure
-Plugin 'bling/vim-airline'              " status bar
+Plugin 'vim-airline/vim-airline'        " status bar
+Plugin 'vim-airline/vim-airline-themes' " status bar themes
 Plugin 'dbakker/vim-projectroot'        " guess project root from file
 Plugin 'clones/vim-cecutil'             " needed by vis
 Plugin 'RobertAudi/vis.vim'             " substitute visual blocks
 Plugin 'tpope/vim-commentary'           " easily comment lines out
 Plugin 'ervandew/supertab'              " tab auto-completion
-Plugin 'ryanoasis/vim-webdevicons'      " cool icons
+Plugin 'ryanoasis/vim-devicons'         " cool icons
 Plugin 'godlygeek/tabular'              " tabularize things
 Plugin 'gabrielelana/vim-markdown'      " proper markdown support
 Plugin 'luochen1990/rainbow'            " colour matching parantheses

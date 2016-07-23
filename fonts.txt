@@ -1,0 +1,7 @@
+For Powerline fonts, install individual fonts from here:
+
+https://github.com/ryanoasis/nerd-fonts
+
+(might be useful to set the font in the terminal too).
+
+Current font: DejaVuSansMonoForPowerline
