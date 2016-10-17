@@ -1,6 +1,5 @@
 import os
 import sys
-import shutil
 import time
 
 # Current platform
@@ -26,9 +25,11 @@ else:
 
 # Symlink function (platform dependent)
 if _platform == "win32":
-    import ntfsutils.junction as junction
+    # http://stackoverflow.com/a/1447651
+    import ctypes
     def symlink(source, link_name):
-        junction.create(source, link_name)
+        kdll = ctypes.windll.LoadLibrary("kernel32.dll")
+        kdll.CreateSymbolicLinkA(link_name, source, 0)
 else:
     symlink = os.symlink
 
@@ -38,15 +39,15 @@ def backup_config():
     if os.path.isdir(vim_dir_path):
         print("Back up: " + vim_dir_path)
         try:
-            shutil.copytree(vim_dir_path, vim_dir_path + time_stamp)
-        except RuntimeError:
+            os.rename(vim_dir_path, vim_dir_path + time_stamp)
+        except:
             print("Error while backing up " + vim_dir_path)
     for backup_f in [vimrc_file_path, gvimrc_file_path]:
-        if os.path.isfile(vimrc_file_path):
+        if os.path.isfile(backup_f):
             print("Back up: " + backup_f)
             try:
-                shutil.copyfile(backup_f, backup_f + time_stamp)
-            except RuntimeError:
+                os.rename(backup_f, backup_f + time_stamp)
+            except:
                 print("Error while backing up " + backup_f)
 
 # Get the correct template starting from a base name
@@ -59,19 +60,6 @@ def get_template(base):
         return os.path.join(script_path, base + _platform)
     else:
         return os.path.join(script_path, base)
-
-# Clean the current configuration if needed
-def clean_config():
-    print "Removing previous configuration"
-    try:
-        try:
-            shutil.rmtree(vim_dir_path)
-        except OSError: # maybe it's a link
-            os.unlink(vim_dir_path)
-        os.remove(vimrc_file_path)
-        os.remove(gvimrc_file_path)
-    except: # TODO: check errors properly here
-        pass
 
 def main():
     if _platform not in supported_platforms:
@@ -87,9 +75,6 @@ def main():
     # Backup existing configuration
     backup_config()
 
-    # Delete the previous configuration
-    clean_config()
-
     # Clone Vundle
     print "Cloning Vundle..."
     try:
@@ -100,13 +85,12 @@ def main():
     os.system("git clone https://github.com/VundleVim/Vundle.vim.git bundle/Vundle.vim")
 
     # Link the required files
-    os.chdir("..")
     symlink(get_template("vimrc"), vimrc_file_path)
     #symlink(os.path.join(get_template("gvimrc"), gvimrc_file_path)
 
     # And install everyting in VIM
     print "Installing plugins ... (ignore vim errors)"
-    os.system("vim +PluginInstall +Qall")
+    os.system("vim +PluginInstall +qall")
 
     print "Done installing."
 
