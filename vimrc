@@ -22,14 +22,14 @@ Plugin 'scrooloose/syntastic'           " syntax checking
 Plugin 'ntpeters/vim-better-whitespace' " highlight unwanted whitespaces
 Plugin 'sjl/badwolf'                    " colorscheme
 Plugin 'scrooloose/nerdtree'            " file and folder structure
-Plugin 'bling/vim-airline'              " status bar
+Plugin 'vim-airline/vim-airline'        " status bar
 Plugin 'vim-airline/vim-airline-themes' " airline themes
 Plugin 'dbakker/vim-projectroot'        " guess project root from file
 Plugin 'clones/vim-cecutil'             " needed by vis
 Plugin 'RobertAudi/vis.vim'             " substitute visual blocks
 Plugin 'tpope/vim-commentary'           " easily comment lines out
 Plugin 'ervandew/supertab'              " tab auto-completion
-Plugin 'ryanoasis/vim-webdevicons'      " cool icons
+Plugin 'ryanoasis/vim-devicons'         " cool icons
 Plugin 'godlygeek/tabular'              " tabularize things
 Plugin 'gabrielelana/vim-markdown'      " proper markdown support
 Plugin 'luochen1990/rainbow'            " colour matching parantheses
