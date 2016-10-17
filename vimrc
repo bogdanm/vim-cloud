@@ -14,10 +14,8 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'              " let Vundle manage Vundle
 
 """ General plugins
-Plugin 'vim-scripts/Gundo'              " visualize vim undo tree
 Plugin 'terryma/vim-multiple-cursors'   " multi-cursors
-Plugin 'kien/ctrlp.vim'                 " fuzzy file search
-Plugin 'tpope/vim-fugitive'             " git features from within vim
+Plugin 'ctrlpvim/ctrlp.vim'             " fuzzy file search
 Plugin 'Lokaltog/vim-easymotion'        " jump anywhere quickly
 Plugin 'airblade/vim-gitgutter'         " git diff in sign column
 Plugin 'scrooloose/syntastic'           " syntax checking
@@ -25,6 +23,7 @@ Plugin 'ntpeters/vim-better-whitespace' " highlight unwanted whitespaces
 Plugin 'sjl/badwolf'                    " colorscheme
 Plugin 'scrooloose/nerdtree'            " file and folder structure
 Plugin 'bling/vim-airline'              " status bar
+Plugin 'vim-airline/vim-airline-themes' " airline themes
 Plugin 'dbakker/vim-projectroot'        " guess project root from file
 Plugin 'clones/vim-cecutil'             " needed by vis
 Plugin 'RobertAudi/vis.vim'             " substitute visual blocks
@@ -34,6 +33,7 @@ Plugin 'ryanoasis/vim-webdevicons'      " cool icons
 Plugin 'godlygeek/tabular'              " tabularize things
 Plugin 'gabrielelana/vim-markdown'      " proper markdown support
 Plugin 'luochen1990/rainbow'            " colour matching parantheses
+Plugin 'fatih/vim-go'                   " let's GO!
 
 """ required
 call vundle#end()
@@ -42,6 +42,7 @@ filetype plugin indent on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin configurations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 let g:EasyMotion_smartcase = 1                          " smart case as in vim
 let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj'    " layout-friendly
 
@@ -149,10 +150,6 @@ set list
 """ briefly jump to matching bracket
 set showmatch
 
-""" use tabs like buffers
-"tab sball
-"set switchbuf+=usetab,newtab
-
 """ no backups
 set nobackup
 set nowritebackup
@@ -180,11 +177,13 @@ function! ProjectSpecificSettings()
         exec "so " . l:vim_custom
     endif
 endfunction
+
 augroup project_specific_settings
     au!
     au BufReadPost,BufNewFile * call ProjectSpecificSettings()
 augroup END
 
+""" automatically reload vimrc when changed
 augroup reload_vimrc
     au!
     au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC
@@ -200,12 +199,9 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
 set hidden
-" Switch to alternate file
-nnoremap <C-PageUp> :bprev<CR>
-nnoremap <C-PageDown> :bnext<CR>
-inoremap <C-PageUp> <Esc>:bprev<CR>
-inoremap <C-PageDown> <Esc>:bnext<CR>
+
 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Key mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -216,10 +212,6 @@ nmap <C-J> <C-W>j
 nmap <C-K> <C-W>k
 nmap <C-L> <C-W>l
 nmap <C-Q> <C-W>q
-
-""" re-arrange tab list with ALT-Left and ALT-Right
-nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
-nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>
 
 """ Avoid turning the keyboard into tiny pieces of dead plastic
 command! WQ wq
@@ -251,8 +243,14 @@ map <F3> :source ~/vim_session <cr>
 """ bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
+""" Switch to alternate file
+nnoremap <C-PageUp> :bprev<CR>
+nnoremap <C-PageDown> :bnext<CR>
+inoremap <C-PageUp> <Esc>:bprev<CR>
+inoremap <C-PageDown> <Esc>:bnext<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Other key mappings (implicit)
+" Other key mappings (implicit) and commands
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """ folding
@@ -263,3 +261,4 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 """ multiple cursors - CTRL+n
 """     more details at https://github.com/terryma/vim-multiple-cursors
 
+""" Tabularize uses the Tabularize command (see http://vimcasts.org/episodes/aligning-text-with-tabular-vim/)
