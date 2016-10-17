@@ -7,11 +7,16 @@ set nocompatible
 filetype off
 
 """ set the runtime path to include Vundle and initialize it
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+if has('win32')
+    set rtp+=~/vimfiles/bundle/Vundle.vim/
+    call vundle#begin('~/vimfiles/bundle/')
+else
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
+endif
 
 """ Vundle
-Plugin 'gmarik/Vundle.vim'              " let Vundle manage Vundle
+Plugin 'VundleVim/Vundle.vim'           " let Vundle manage Vundle
 
 """ General plugins
 Plugin 'terryma/vim-multiple-cursors'   " multi-cursors
@@ -29,7 +34,9 @@ Plugin 'clones/vim-cecutil'             " needed by vis
 Plugin 'RobertAudi/vis.vim'             " substitute visual blocks
 Plugin 'tpope/vim-commentary'           " easily comment lines out
 Plugin 'ervandew/supertab'              " tab auto-completion
-Plugin 'ryanoasis/vim-devicons'         " cool icons
+if !has('win32')
+    Plugin 'ryanoasis/vim-devicons'     " cool icons
+endif
 Plugin 'godlygeek/tabular'              " tabularize things
 Plugin 'gabrielelana/vim-markdown'      " proper markdown support
 Plugin 'luochen1990/rainbow'            " colour matching parantheses
@@ -43,8 +50,8 @@ filetype plugin indent on
 " Plugin configurations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let g:EasyMotion_smartcase = 1                          " smart case as in vim
-let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj'    " layout-friendly
+let g:EasyMotion_smartcase = 1                       " smart case as in vim
+let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj' " layout-friendly
 
 """ supertab - prevent unwanted tabs
 let g:SuperTabNoCompleteAfter = ['^', ',', '\s', ';', "\'", '"', '>', ')', ':', '/']
@@ -114,7 +121,9 @@ set ruler                               " show column number
 set backspace=indent,eol,start          " backspace for special cases
 
 """ color scheme
-set t_Co=256                            " 256 colors
+if !has('win32')
+    set t_Co=256                        " 256 colors
+endif
 try
     colorscheme badwolf                 " colorscheme
 catch /^Vim\%((\a\+)\)\=:E185/          " fallback
@@ -163,7 +172,10 @@ set wildmenu
 
 """ auto-detect file changes (not if in command line window)
 """ simple version from https://stackoverflow.com/questions/2490227/how-does-vims-autoread-work/20418591#20418591
-au FocusGained,BufEnter * :silent! !
+""" doesn't work on windows (also, is it really needed?)
+if !has('win32')
+    au FocusGained,BufEnter * :silent! !
+endif
 
 """ mouse interaction (may show unwanted behavior)
 set mouse=a                             " mouse can interact
@@ -196,8 +208,10 @@ augroup END
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
+if !has('win32')
+    let g:airline_powerline_fonts = 1
+endif
 set hidden
 
 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
