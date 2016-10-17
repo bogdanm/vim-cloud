@@ -86,7 +86,7 @@ def main():
 
     # Link the required files
     symlink(get_template("vimrc"), vimrc_file_path)
-    #symlink(os.path.join(get_template("gvimrc"), gvimrc_file_path)
+    symlink(get_template("gvimrc"), gvimrc_file_path)
 
     # And install everyting in VIM
     print "Installing plugins ... (ignore vim errors)"
