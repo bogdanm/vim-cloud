@@ -22,7 +22,11 @@ Plugin 'VundleVim/Vundle.vim'           " let Vundle manage Vundle
 Plugin 'terryma/vim-multiple-cursors'   " multi-cursors
 Plugin 'ctrlpvim/ctrlp.vim'             " fuzzy file search
 Plugin 'Lokaltog/vim-easymotion'        " jump anywhere quickly
-Plugin 'airblade/vim-gitgutter'         " git diff in sign column
+if has('win32')
+    Plugin 'mhinz/vim-signify'          " git diff in sign column
+else
+    Plugin 'airblade/vim-gitgutter'     " git diff in sign column (doesn't work in Windows)
+endif
 Plugin 'scrooloose/syntastic'           " syntax checking
 Plugin 'ntpeters/vim-better-whitespace' " highlight unwanted whitespaces
 Plugin 'sjl/badwolf'                    " colorscheme
@@ -76,6 +80,11 @@ let g:syntastic_python_checkers = ['python']
 let g:syntastic_auto_jump = 1
 let g:syntastic_c_checkers = []
 let g:syntastic_cpp_checkers = []
+
+""" signify
+if has('win32')
+    let g:signify_vcs_list = ['git']
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Replace grep with ag
