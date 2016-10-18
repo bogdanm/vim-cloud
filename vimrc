@@ -7,34 +7,44 @@ set nocompatible
 filetype off
 
 """ set the runtime path to include Vundle and initialize it
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+if has('win32')
+    set rtp+=~/vimfiles/bundle/Vundle.vim/
+    call vundle#begin('~/vimfiles/bundle/')
+else
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
+endif
 
 """ Vundle
-Plugin 'gmarik/Vundle.vim'              " let Vundle manage Vundle
+Plugin 'VundleVim/Vundle.vim'           " let Vundle manage Vundle
 
 """ General plugins
-Plugin 'vim-scripts/Gundo'              " visualize vim undo tree
 Plugin 'terryma/vim-multiple-cursors'   " multi-cursors
 Plugin 'ctrlpvim/ctrlp.vim'             " fuzzy file search
-Plugin 'tpope/vim-fugitive'             " git features from within vim
 Plugin 'Lokaltog/vim-easymotion'        " jump anywhere quickly
-Plugin 'airblade/vim-gitgutter'         " git diff in sign column
+if has('win32')
+    Plugin 'mhinz/vim-signify'          " git diff in sign column
+else
+    Plugin 'airblade/vim-gitgutter'     " git diff in sign column (doesn't work in Windows)
+endif
 Plugin 'scrooloose/syntastic'           " syntax checking
 Plugin 'ntpeters/vim-better-whitespace' " highlight unwanted whitespaces
 Plugin 'sjl/badwolf'                    " colorscheme
 Plugin 'scrooloose/nerdtree'            " file and folder structure
 Plugin 'vim-airline/vim-airline'        " status bar
-Plugin 'vim-airline/vim-airline-themes' " status bar themes
+Plugin 'vim-airline/vim-airline-themes' " airline themes
 Plugin 'dbakker/vim-projectroot'        " guess project root from file
 Plugin 'clones/vim-cecutil'             " needed by vis
 Plugin 'RobertAudi/vis.vim'             " substitute visual blocks
 Plugin 'tpope/vim-commentary'           " easily comment lines out
 Plugin 'ervandew/supertab'              " tab auto-completion
-Plugin 'ryanoasis/vim-devicons'         " cool icons
+if !has('win32')
+    Plugin 'ryanoasis/vim-devicons'     " cool icons
+endif
 Plugin 'godlygeek/tabular'              " tabularize things
 Plugin 'gabrielelana/vim-markdown'      " proper markdown support
 Plugin 'luochen1990/rainbow'            " colour matching parantheses
+Plugin 'fatih/vim-go'                   " let's GO!
 
 """ required
 call vundle#end()
@@ -43,8 +53,9 @@ filetype plugin indent on
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin configurations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:EasyMotion_smartcase = 1                          " smart case as in vim
-let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj'    " layout-friendly
+
+let g:EasyMotion_smartcase = 1                       " smart case as in vim
+let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj' " layout-friendly
 
 """ supertab - prevent unwanted tabs
 let g:SuperTabNoCompleteAfter = ['^', ',', '\s', ';', "\'", '"', '>', ')', ':', '/']
@@ -69,6 +80,11 @@ let g:syntastic_python_checkers = ['python']
 let g:syntastic_auto_jump = 1
 let g:syntastic_c_checkers = []
 let g:syntastic_cpp_checkers = []
+
+""" signify
+if has('win32')
+    let g:signify_vcs_list = ['git']
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Replace grep with ag
@@ -114,7 +130,9 @@ set ruler                               " show column number
 set backspace=indent,eol,start          " backspace for special cases
 
 """ color scheme
-set t_Co=256                            " 256 colors
+if !has('win32')
+    set t_Co=256                        " 256 colors
+endif
 try
     colorscheme badwolf                 " colorscheme
 catch /^Vim\%((\a\+)\)\=:E185/          " fallback
@@ -150,10 +168,6 @@ set list
 """ briefly jump to matching bracket
 set showmatch
 
-""" use tabs like buffers
-"tab sball
-"set switchbuf+=usetab,newtab
-
 """ no backups
 set nobackup
 set nowritebackup
@@ -167,7 +181,10 @@ set wildmenu
 
 """ auto-detect file changes (not if in command line window)
 """ simple version from https://stackoverflow.com/questions/2490227/how-does-vims-autoread-work/20418591#20418591
-au FocusGained,BufEnter * :silent! !
+""" doesn't work on windows (also, is it really needed?)
+if !has('win32')
+    au FocusGained,BufEnter * :silent! !
+endif
 
 """ mouse interaction (may show unwanted behavior)
 set mouse=a                             " mouse can interact
@@ -181,11 +198,13 @@ function! ProjectSpecificSettings()
         exec "so " . l:vim_custom
     endif
 endfunction
+
 augroup project_specific_settings
     au!
     au BufReadPost,BufNewFile * call ProjectSpecificSettings()
 augroup END
 
+""" automatically reload vimrc when changed
 augroup reload_vimrc
     au!
     au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC
@@ -198,15 +217,14 @@ augroup END
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
+if !has('win32')
+    let g:airline_powerline_fonts = 1
+endif
 set hidden
-" Switch to alternate file
-nnoremap <C-PageUp> :bprev<CR>
-nnoremap <C-PageDown> :bnext<CR>
-inoremap <C-PageUp> <Esc>:bprev<CR>
-inoremap <C-PageDown> <Esc>:bnext<CR>
+
 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Key mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -217,10 +235,6 @@ nmap <C-J> <C-W>j
 nmap <C-K> <C-W>k
 nmap <C-L> <C-W>l
 nmap <C-Q> <C-W>q
-
-""" re-arrange tab list with ALT-Left and ALT-Right
-nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
-nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . tabpagenr()<CR>
 
 """ Avoid turning the keyboard into tiny pieces of dead plastic
 command! WQ wq
@@ -252,8 +266,14 @@ map <F3> :source ~/vim_session <cr>
 """ bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
+""" Switch to alternate file
+nnoremap <C-PageUp> :bprev<CR>
+nnoremap <C-PageDown> :bnext<CR>
+inoremap <C-PageUp> <Esc>:bprev<CR>
+inoremap <C-PageDown> <Esc>:bnext<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Other key mappings (implicit)
+" Other key mappings (implicit) and commands
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """ folding
@@ -264,3 +284,4 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 """ multiple cursors - CTRL+n
 """     more details at https://github.com/terryma/vim-multiple-cursors
 
+""" Tabularize uses the Tabularize command (see http://vimcasts.org/episodes/aligning-text-with-tabular-vim/)
