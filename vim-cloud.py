@@ -6,7 +6,7 @@ import time
 from sys import platform as _platform
 
 # Supported platforms
-supported_platforms = ["linux", "darwin", "win32"]
+supported_platforms = ["linux", "darwin", "win32", "linux2"]
 
 # Current path
 script_path = os.path.abspath(os.path.dirname(__file__))
