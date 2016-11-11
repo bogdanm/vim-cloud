@@ -29,7 +29,7 @@ else
 endif
 Plugin 'scrooloose/syntastic'           " syntax checking
 Plugin 'ntpeters/vim-better-whitespace' " highlight unwanted whitespaces
-Plugin 'sjl/badwolf'                    " colorscheme
+Plugin 'morhetz/gruvbox'                " colorscheme
 Plugin 'scrooloose/nerdtree'            " file and folder structure
 Plugin 'vim-airline/vim-airline'        " status bar
 Plugin 'vim-airline/vim-airline-themes' " airline themes
@@ -41,10 +41,8 @@ if !has('win32')
 endif
 Plugin 'godlygeek/tabular'              " tabularize things
 Plugin 'gabrielelana/vim-markdown'      " proper markdown support
-Plugin 'luochen1990/rainbow'            " colour matching parantheses
 Plugin 'fatih/vim-go'                   " let's GO!
-Plugin 'xolox/vim-misc'                 " required for vim-session (below)
-Plugin 'xolox/vim-session'              " session management
+Plugin 'fholgado/minibufexpl.vim'       " buffer explorer
 
 """ required
 call vundle#end()
@@ -86,11 +84,6 @@ let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 if has('win32')
     let g:signify_vcs_list = ['git']
 endif
-
-""" vim-sesion
-let g:session_autosave = 'no'
-" Don't save hidden and unloaded buffers in sessions.
-set sessionoptions-=buffers
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Replace grep with ag
@@ -144,7 +137,10 @@ if !has('win32')
     set t_Co=256                        " 256 colors
 endif
 try
-    colorscheme badwolf                 " colorscheme
+    let g:gruvbox_italic=1
+    let g:gruvbox_contrast_dark="hard"
+    set background=dark
+    colorscheme gruvbox                 " colorscheme
 catch /^Vim\%((\a\+)\)\=:E185/          " fallback
     colorscheme elflord                 " just happens at first installation
 endtry
@@ -189,6 +185,15 @@ set noeb vb t_vb=
 set wildmode=longest,list,full
 set wildmenu
 
+""" buffer behaviour
+set hidden
+
+""" powerline
+let g:airline_theme='powerlineish'
+if !has('win32')
+    let g:airline_powerline_fonts = 1
+endif
+
 """ auto-detect file changes (not if in command line window)
 """ simple version from https://stackoverflow.com/questions/2490227/how-does-vims-autoread-work/20418591#20418591
 """ doesn't work on windows (also, is it really needed?)
@@ -220,21 +225,6 @@ augroup reload_vimrc
     au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC
                 \|if has('gui_running') | so $MYGVIMRC | endif
 augroup END
-
-"""""""""""" EXPERIMENTAL
-
-" Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline_theme='powerlineish'
-if !has('win32')
-    let g:airline_powerline_fonts = 1
-endif
-set hidden
-
-let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Key mappings
