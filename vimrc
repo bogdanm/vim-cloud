@@ -34,8 +34,6 @@ Plugin 'scrooloose/nerdtree'            " file and folder structure
 Plugin 'vim-airline/vim-airline'        " status bar
 Plugin 'vim-airline/vim-airline-themes' " airline themes
 Plugin 'dbakker/vim-projectroot'        " guess project root from file
-Plugin 'clones/vim-cecutil'             " needed by vis
-Plugin 'RobertAudi/vis.vim'             " substitute visual blocks
 Plugin 'tpope/vim-commentary'           " easily comment lines out
 Plugin 'ervandew/supertab'              " tab auto-completion
 if !has('win32')
@@ -45,6 +43,8 @@ Plugin 'godlygeek/tabular'              " tabularize things
 Plugin 'gabrielelana/vim-markdown'      " proper markdown support
 Plugin 'luochen1990/rainbow'            " colour matching parantheses
 Plugin 'fatih/vim-go'                   " let's GO!
+Plugin 'xolox/vim-misc'                 " required for vim-session (below)
+Plugin 'xolox/vim-session'              " session management
 
 """ required
 call vundle#end()
@@ -72,7 +72,7 @@ let g:ctrlp_show_hidden = 1                         " always show hidden files
 let g:ctrlp_max_files = 10000
 let g:ctrlp_working_path_mode = 'ra'                " current + version control
 
-""" syntastic - enabled for Python only for now
+""" syntastic - enabled for Python and go
 let g:syntastic_check_on_open = 1
 let g:syntastic_enable_signs = 1    " Put errors on left side
 let g:syntastic_quiet_messages = {'level': 'warnings'}
@@ -80,11 +80,17 @@ let g:syntastic_python_checkers = ['python']
 let g:syntastic_auto_jump = 1
 let g:syntastic_c_checkers = []
 let g:syntastic_cpp_checkers = []
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
 
 """ signify
 if has('win32')
     let g:signify_vcs_list = ['git']
 endif
+
+""" vim-sesion
+let g:session_autosave = 'no'
+" Don't save hidden and unloaded buffers in sessions.
+set sessionoptions-=buffers
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Replace grep with ag
@@ -96,7 +102,11 @@ if executable('ag')
     set grepprg=ag\ -t\ --nogroup\ --nocolor
 
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    if has('unix')
+        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    else
+        let g:ctrlp_user_command = 'ag -l --nocolor -g "" %s'
+    endif
 
     " ag is fast enough that CtrlP doesn't need to cache
     let g:ctrlp_use_caching = 0
@@ -108,7 +118,7 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 """ New command: Ag
 command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 
-""" Bine new command to '\' in normal mode
+""" Bind new command to '\' in normal mode
 nnoremap \ :Ag<SPACE>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -217,6 +227,7 @@ augroup END
 let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline_theme='powerlineish'
 if !has('win32')
     let g:airline_powerline_fonts = 1
@@ -259,10 +270,6 @@ map <F7> :set paste!<bar>set paste?<CR>
 """ start NERDTree in current dir with F8
 nmap <F8> :NERDTreeFind<CR>
 
-""" Simple "session" management - save with F2, load with F3
-map <F2> :mksession! ~/vim_session <cr>
-map <F3> :source ~/vim_session <cr>
-
 """ bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
@@ -285,3 +292,4 @@ inoremap <C-PageDown> <Esc>:bnext<CR>
 """     more details at https://github.com/terryma/vim-multiple-cursors
 
 """ Tabularize uses the Tabularize command (see http://vimcasts.org/episodes/aligning-text-with-tabular-vim/)
+
