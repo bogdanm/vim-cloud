@@ -61,7 +61,7 @@ let g:SuperTabDefaultCompletionType = "context"
 
 """ ctrlp - basic configuration
 let g:ctrlp_map = '<C-p>'                           " mapped to ctrl-P
-let g:ctrlp_cmd = 'CtrlP'                           " default command
+let g:ctrlp_cmd = 'CtrlPMixed'                      " default command
 
 """ ctrlp - customization
 let g_ctrlp_switch_buffer = 'E'                     " re-open existing buffers
