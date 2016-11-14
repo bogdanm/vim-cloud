@@ -261,7 +261,7 @@ map <F6> :StripWhitespace<CR>
 map <F7> :set paste!<bar>set paste?<CR>
 
 """ start NERDTree in current dir with F8
-nmap <F8> :NERDTreeToggle<CR>
+nmap <F8> :NERDTreeFind<CR>
 
 """ bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
