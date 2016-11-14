@@ -29,7 +29,7 @@ else
 endif
 Plugin 'scrooloose/syntastic'            " syntax checking
 Plugin 'ntpeters/vim-better-whitespace'  " highlight unwanted whitespaces
-Plugin 'morhetz/gruvbox'                 " colorscheme
+Plugin 'sjl/badwolf'                     " color scheme
 Plugin 'scrooloose/nerdtree'             " file and folder structure
 Plugin 'vim-airline/vim-airline'         " status bar
 Plugin 'vim-airline/vim-airline-themes'  " airline themes
@@ -136,10 +136,7 @@ if !has('win32')
     set t_Co=256                        " 256 colors
 endif
 try
-    let g:gruvbox_italic=1
-    let g:gruvbox_contrast_dark="hard"
-    set background=dark
-    colorscheme gruvbox                 " colorscheme
+    colorscheme badwolf                 " colorscheme
 catch /^Vim\%((\a\+)\)\=:E185/          " fallback
     colorscheme elflord                 " just happens at first installation
 endtry

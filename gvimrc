@@ -4,6 +4,6 @@ if has('win32')
     au GUIEnter * simalt ~x
 else
     source ~/.vimrc
-    set guifont=DejaVuSansMonoForPowerline\ Nerd\ Font\ Book
+    set guifont=DejaVu\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ Mono\ Plus\ Pomicons\ 9
 endif
 set guioptions-=T
