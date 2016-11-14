@@ -16,33 +16,32 @@ else
 endif
 
 """ Vundle
-Plugin 'VundleVim/Vundle.vim'           " let Vundle manage Vundle
+Plugin 'VundleVim/Vundle.vim'            " let Vundle manage Vundle
 
 """ General plugins
-Plugin 'terryma/vim-multiple-cursors'   " multi-cursors
-Plugin 'ctrlpvim/ctrlp.vim'             " fuzzy file search
-Plugin 'Lokaltog/vim-easymotion'        " jump anywhere quickly
+Plugin 'terryma/vim-multiple-cursors'    " multi-cursors
+Plugin 'ctrlpvim/ctrlp.vim'              " fuzzy file search
+Plugin 'Lokaltog/vim-easymotion'         " jump anywhere quickly
 if has('win32')
-    Plugin 'mhinz/vim-signify'          " git diff in sign column
+    Plugin 'mhinz/vim-signify'           " git diff in sign column
 else
-    Plugin 'airblade/vim-gitgutter'     " git diff in sign column (doesn't work in Windows)
+    Plugin 'airblade/vim-gitgutter'      " git diff in sign column (doesn't work in Windows)
 endif
-Plugin 'scrooloose/syntastic'           " syntax checking
-Plugin 'ntpeters/vim-better-whitespace' " highlight unwanted whitespaces
-Plugin 'morhetz/gruvbox'                " colorscheme
-Plugin 'scrooloose/nerdtree'            " file and folder structure
-Plugin 'vim-airline/vim-airline'        " status bar
-Plugin 'vim-airline/vim-airline-themes' " airline themes
-Plugin 'dbakker/vim-projectroot'        " guess project root from file
-Plugin 'tpope/vim-commentary'           " easily comment lines out
-Plugin 'ervandew/supertab'              " tab auto-completion
+Plugin 'scrooloose/syntastic'            " syntax checking
+Plugin 'ntpeters/vim-better-whitespace'  " highlight unwanted whitespaces
+Plugin 'morhetz/gruvbox'                 " colorscheme
+Plugin 'scrooloose/nerdtree'             " file and folder structure
+Plugin 'vim-airline/vim-airline'         " status bar
+Plugin 'vim-airline/vim-airline-themes'  " airline themes
+Plugin 'dbakker/vim-projectroot'         " guess project root from file
+Plugin 'tpope/vim-commentary'            " easily comment lines out
+Plugin 'ervandew/supertab'               " tab auto-completion
 if !has('win32')
-    Plugin 'ryanoasis/vim-devicons'     " cool icons
+    Plugin 'ryanoasis/vim-devicons'      " cool icons
 endif
-Plugin 'godlygeek/tabular'              " tabularize things
-Plugin 'gabrielelana/vim-markdown'      " proper markdown support
-Plugin 'fatih/vim-go'                   " let's GO!
-Plugin 'fholgado/minibufexpl.vim'       " buffer explorer
+Plugin 'godlygeek/tabular'               " tabularize things
+Plugin 'gabrielelana/vim-markdown'       " proper markdown support
+Plugin 'fatih/vim-go'                    " let's GO!
 
 """ required
 call vundle#end()
@@ -193,6 +192,10 @@ let g:airline_theme='powerlineish'
 if !has('win32')
     let g:airline_powerline_fonts = 1
 endif
+""" enable buffer list
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
 """ auto-detect file changes (not if in command line window)
 """ simple version from https://stackoverflow.com/questions/2490227/how-does-vims-autoread-work/20418591#20418591
@@ -258,7 +261,7 @@ map <F6> :StripWhitespace<CR>
 map <F7> :set paste!<bar>set paste?<CR>
 
 """ start NERDTree in current dir with F8
-nmap <F8> :NERDTreeFind<CR>
+nmap <F8> :NERDTreeToggle<CR>
 
 """ bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
