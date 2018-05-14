@@ -35,13 +35,14 @@ Plugin 'vim-airline/vim-airline'         " status bar
 Plugin 'vim-airline/vim-airline-themes'  " airline themes
 Plugin 'dbakker/vim-projectroot'         " guess project root from file
 Plugin 'tpope/vim-commentary'            " easily comment lines out
-Plugin 'ervandew/supertab'               " tab auto-completion
 if !has('win32')
     Plugin 'ryanoasis/vim-devicons'      " cool icons
 endif
 Plugin 'godlygeek/tabular'               " tabularize things
 Plugin 'gabrielelana/vim-markdown'       " proper markdown support
 Plugin 'fatih/vim-go'                    " let's GO!
+Plugin 'Valloric/YouCompleteMe'          " code completion done right
+Plugin 'mhinz/vim-startify'              " start screen
 
 """ required
 call vundle#end()
@@ -54,10 +55,6 @@ filetype plugin indent on
 let g:EasyMotion_smartcase = 1                       " smart case as in vim
 let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj' " layout-friendly
 
-""" supertab - prevent unwanted tabs
-let g:SuperTabNoCompleteAfter = ['^', ',', '\s', ';', "\'", '"', '>', ')', ':', '/']
-let g:SuperTabDefaultCompletionType = "context"
-
 """ ctrlp - basic configuration
 let g:ctrlp_map = '<C-p>'                           " mapped to ctrl-P
 let g:ctrlp_cmd = 'CtrlPMixed'                      " default command
@@ -69,7 +66,7 @@ let g:ctrlp_show_hidden = 1                         " always show hidden files
 let g:ctrlp_max_files = 10000
 let g:ctrlp_working_path_mode = 'ra'                " current + version control
 
-""" syntastic - enabled for Python and go
+""" syntastic - enabled for Python
 let g:syntastic_check_on_open = 1
 let g:syntastic_enable_signs = 1    " Put errors on left side
 let g:syntastic_quiet_messages = {'level': 'warnings'}
@@ -77,7 +74,7 @@ let g:syntastic_python_checkers = ['python']
 let g:syntastic_auto_jump = 1
 let g:syntastic_c_checkers = []
 let g:syntastic_cpp_checkers = []
-let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_go_checkers = []
 
 """ signify
 if has('win32')
@@ -184,6 +181,9 @@ set wildmenu
 """ buffer behaviour
 set hidden
 
+""" UTF-8 encoding (needed by YCM)
+set encoding=utf-8
+
 """ powerline
 let g:airline_theme='powerlineish'
 if !has('win32')
@@ -259,6 +259,9 @@ map <F7> :set paste!<bar>set paste?<CR>
 
 """ start NERDTree in current dir with F8
 nmap <F8> :NERDTreeFind<CR>
+
+""" YCM GoTo
+map <F9> :YcmCompleter GoTo<CR>
 
 """ bind K to grep word under cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
