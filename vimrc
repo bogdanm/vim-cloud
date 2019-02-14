@@ -38,10 +38,7 @@ Plugin 'tpope/vim-commentary'            " easily comment lines out
 if !has('win32')
     Plugin 'ryanoasis/vim-devicons'      " cool icons
 endif
-Plugin 'godlygeek/tabular'               " tabularize things
 Plugin 'gabrielelana/vim-markdown'       " proper markdown support
-Plugin 'fatih/vim-go'                    " let's GO!
-Plugin 'Valloric/YouCompleteMe'          " code completion done right
 Plugin 'mhinz/vim-startify'              " start screen
 
 """ required
