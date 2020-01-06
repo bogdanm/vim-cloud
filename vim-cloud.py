@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import sys
 import time
@@ -68,7 +70,7 @@ def main():
     force = len(sys.argv) == 2 and sys.argv[1] == "-f"
     if os.path.isdir(os.path.join(vim_dir_path, "bundle", "Vundle.vim")):
         if not force:
-            print "Vundle already found, exiting (use '-f' to force installation)"
+            print("Vundle already found, exiting (use '-f' to force installation)")
             sys.exit(1)
         exists = True
 
@@ -76,7 +78,7 @@ def main():
     backup_config()
 
     # Clone Vundle
-    print "Cloning Vundle..."
+    print("Cloning Vundle...")
     try:
         os.makedirs(vim_dir_path)
     except:
@@ -89,10 +91,10 @@ def main():
     symlink(get_template("gvimrc"), gvimrc_file_path)
 
     # And install everyting in VIM
-    print "Installing plugins ... (ignore vim errors)"
+    print("Installing plugins ... (ignore vim errors)")
     os.system("vim +PluginInstall +qall")
 
-    print "Done installing."
+    print("Done installing.")
 
 if __name__ == "__main__":
     main()
