@@ -22,6 +22,7 @@ Plugin 'VundleVim/Vundle.vim'            " let Vundle manage Vundle
 Plugin 'Lokaltog/vim-easymotion'         " jump anywhere quickly
 Plugin 'ntpeters/vim-better-whitespace'  " highlight unwanted whitespaces
 Plugin 'sjl/badwolf'                     " color scheme
+Plugin 'vim-airline/vim-airline'         " status bar
 Plugin 'tpope/vim-commentary'            " easily comment lines out
 Plugin 'mhinz/vim-startify'              " start screen
 
@@ -35,6 +36,11 @@ filetype plugin indent on
 
 let g:EasyMotion_smartcase = 1                       " smart case as in vim
 let g:EasyMotion_keys = 'asdghklqwertyuiopzxcvbnmfj' " layout-friendly
+
+""" enable buffer list
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Appearance and behaviour
