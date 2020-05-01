@@ -31,8 +31,6 @@ Plugin 'scrooloose/syntastic'            " syntax checking
 Plugin 'ntpeters/vim-better-whitespace'  " highlight unwanted whitespaces
 Plugin 'sjl/badwolf'                     " color scheme
 Plugin 'scrooloose/nerdtree'             " file and folder structure
-Plugin 'vim-airline/vim-airline'         " status bar
-Plugin 'vim-airline/vim-airline-themes'  " airline themes
 Plugin 'dbakker/vim-projectroot'         " guess project root from file
 Plugin 'tpope/vim-commentary'            " easily comment lines out
 if !has('win32')
@@ -283,3 +281,9 @@ inoremap <C-PageDown> <Esc>:bnext<CR>
 
 """ Tabularize uses the Tabularize command (see http://vimcasts.org/episodes/aligning-text-with-tabular-vim/)
 
+python3 from powerline.vim import setup as powerline_setup
+python3 powerline_setup()
+python3 del powerline_setup
+
+set laststatus=2
+set showtabline=2
