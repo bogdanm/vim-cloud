@@ -28,3 +28,10 @@ repository, the update is basically equivalent to:
 ```bash
 vim +PluginInstall +qall
 ```
+
+## WSL-specific
+
+`sudo apt install powerline`.
+
+See also https://devpro.media/install-powerline-windows/
+
